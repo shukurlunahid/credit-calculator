@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ipoteka krediti</title>
+  </head>
+  <body>
+    <label for="amount">Evin qiyməti:</label>
+    <input
+      name="amount"
+      type="number"
+      id="amount"
+      oninput="handleChange(this.value)"
+    />
+    <input type="submit" value="Submit" onclick="handleSubmit()" />
+    <p>Evin satış qiyməti: <span id="sellAmount"></span></p>
+    <p>İlkin ödəniş: <span id="firstPayment"></span></p>
+    <p>Aylıq ödəniş: <span id="monthlyPayment"></span></p>
+    <p>Yekun məbləğ: <span id="totalAmount"></span></p>
+
+    <script>
+      const amountInput = document.getElementById("amount");
+      const sellAmountEl = document.getElementById("sellAmount");
+      const firstPaymentEl = document.getElementById("firstPayment");
+      const monthlyPaymentEl = document.getElementById("monthlyPayment");
+      const totalAmountEl = document.getElementById("totalAmount");
+
+      function handleChange(val) {
+        sellAmountEl.textContent = thousandSeparator(+val);
+      }
+
+      function handleSubmit() {
+        const amount = document.getElementById("amount").value;
+        const firstPayment = (amount * 15) / 100;
+        const monthlyPayment = calculateAnnuity(amount - firstPayment);
+        const totalAmount = calculatoTotalAmount(monthlyPayment);
+        firstPaymentEl.textContent = thousandSeparator(firstPayment);
+        monthlyPaymentEl.textContent = thousandSeparator(monthlyPayment);
+        totalAmountEl.textContent = thousandSeparator(totalAmount);
+      }
+
+      function calculateAnnuity(amount, month = 300, rate = 7) {
+        rate = rate / 100;
+        const monthlyRate = rate / 12;
+        const fraction = amount * monthlyRate;
+        const denominator = 1 - Math.pow(1 + monthlyRate, -1 * month);
+        const annuity = fraction / denominator;
+
+        return annuity;
+      }
+
+      function calculatoTotalAmount(monthlyPayment, month = 300) {
+        let totalAmount = monthlyPayment * month;
+        totalAmount = Number(totalAmount.toFixed(2));
+        return totalAmount;
+      }
+
+      function thousandSeparator(number, fixedNumber = 2) {
+        if (!number) {
+          return;
+        }
+
+        let result = "";
+
+        if (fixedNumber) {
+          number = Number(number.toFixed(fixedNumber));
+        }
+        result = number.toLocaleString("en-US").replace(",", " ");
+
+        return result;
+      }
+    </script>
+  </body>
+</html>
