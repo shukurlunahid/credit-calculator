@@ -5,14 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ipoteka krediti</title>
   </head>
+  <style>
+    input {
+      width: 150px;
+    }
+  </style>
   <body>
-    <label for="amount">Evin qiyməti:</label>
-    <input
-      name="amount"
-      type="number"
-      id="amount"
-      oninput="handleChange(this.value)"
-    />
+    <div style="margin-bottom: 10px">
+      <label for="amount" style="display: block"
+        >Evin qiyməti: (Kreditin məbləği)</label
+      >
+      <input
+        name="amount"
+        placeholder="Məbləği qeyd edin"
+        type="number"
+        id="amount"
+        oninput="handleChange(this.value)"
+      />
+    </div>
+
+    <div style="margin-bottom: 10px">
+      <label for="rate" style="display: block">Faiz: (standart 7)</label>
+      <input name="rate" type="number" id="rate" value="7" />
+    </div>
+
     <input type="submit" value="Submit" onclick="handleSubmit()" />
     <p>Evin satış qiyməti: <span id="sellAmount"></span></p>
     <p>İlkin ödəniş: <span id="firstPayment"></span></p>
@@ -20,7 +36,6 @@
     <p>Yekun məbləğ: <span id="totalAmount"></span></p>
 
     <script>
-      const amountInput = document.getElementById("amount");
       const sellAmountEl = document.getElementById("sellAmount");
       const firstPaymentEl = document.getElementById("firstPayment");
       const monthlyPaymentEl = document.getElementById("monthlyPayment");
@@ -32,15 +47,22 @@
 
       function handleSubmit() {
         const amount = document.getElementById("amount").value;
+        const rate = document.getElementById("rate").value;
+
+        if (!amount || !rate) {
+          alert("Xanaları düzgün doldurun");
+          clearResults();
+          return;
+        }
         const firstPayment = (amount * 15) / 100;
-        const monthlyPayment = calculateAnnuity(amount - firstPayment);
+        const monthlyPayment = calculateAnnuity(amount - firstPayment, rate);
         const totalAmount = calculatoTotalAmount(monthlyPayment);
         firstPaymentEl.textContent = thousandSeparator(firstPayment);
         monthlyPaymentEl.textContent = thousandSeparator(monthlyPayment);
         totalAmountEl.textContent = thousandSeparator(totalAmount);
       }
 
-      function calculateAnnuity(amount, month = 300, rate = 7) {
+      function calculateAnnuity(amount, rate, month = 300) {
         rate = rate / 100;
         const monthlyRate = rate / 12;
         const fraction = amount * monthlyRate;
@@ -69,6 +91,12 @@
         result = number.toLocaleString("en-US").replace(",", " ");
 
         return result;
+      }
+
+      function clearResults() {
+        firstPaymentEl.textContent = "";
+        monthlyPaymentEl.textContent = "";
+        totalAmountEl.textContent = "";
       }
     </script>
   </body>
