@@ -3,38 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
     <title>Ipoteka krediti</title>
   </head>
-  <style>
-    input {
-      width: 150px;
-    }
-  </style>
   <body>
-    <div style="margin-bottom: 10px">
-      <label for="amount" style="display: block"
-        >Evin qiyməti: (Kreditin məbləği)</label
-      >
-      <input
-        name="amount"
-        placeholder="Məbləği daxil edin"
-        type="number"
-        id="amount"
-        oninput="handleChange(this.value)"
-      />
+    <div>
+      <div class="input-block">
+        <label for="amount">Evin qiyməti:</label>
+        <input
+          name="amount"
+          placeholder="Məbləği daxil edin"
+          type="number"
+          id="amount"
+          oninput="handleChange(this.value)"
+        />
+      </div>
+
+      <div class="input-block">
+        <label for="">İlkin ödəniş:</label>
+        <input
+          type="radio"
+          id="withRate"
+          name="firstPayment"
+          value="withRate"
+          checked
+        />
+        <label style="display: inline-block" for="withRate">Faiz ilə</label>
+        <input type="radio" id="cash" name="firstPayment" value="cash" />
+        <label style="display: inline-block" for="cash">Nağd pul ilə</label
+        ><br />
+        <input
+          type="number"
+          placeholder="Faizlə"
+          id="firstPaymentWithRate"
+        /><br />
+        <input
+          type="number"
+          style="margin-top: 0"
+          id="firstPaymentWithCash"
+          placeholder="Nağd pul ilə"
+          class="d-none"
+        />
+      </div>
+
+      <div class="input-block">
+        <label for="rate">İllik faiz: </label>
+        <input
+          name="rate"
+          type="number"
+          id="rate"
+          placeholder="Faizi daxil edin"
+        />
+      </div>
+
+      <input type="submit" value="Hesabla" onclick="handleSubmit()" />
     </div>
 
-    <div style="margin-bottom: 10px">
-      <label for="rate" style="display: block">Faiz: </label>
-      <input
-        name="rate"
-        type="number"
-        id="rate"
-        placeholder="Faizi daxil edin"
-      />
-    </div>
-
-    <input type="submit" value="Hesabla" onclick="handleSubmit()" />
     <p>Evin qiyməti: <span id="sellAmount"></span></p>
     <p>İlkin ödəniş: <span id="firstPayment"></span></p>
     <p>Aylıq ödəniş: <span id="monthlyPayment"></span></p>

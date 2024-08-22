@@ -18,6 +18,7 @@ function thousandSeparator(number, fixedNumber = 2) {
   if (!number) {
     return;
   }
+  number = Number(number);
 
   let result = "";
 
