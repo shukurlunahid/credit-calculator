@@ -5,6 +5,11 @@ const totalAmountEl = document.getElementById("totalAmount");
 const firstPaymentRadios = document.querySelectorAll('input[type="radio"]');
 const firstPaymentWithRateEl = document.getElementById("firstPaymentWithRate");
 const firstPaymentWithCashEl = document.getElementById("firstPaymentWithCash");
+const currentYearEl = document.getElementById("currentYear");
+
+if (currentYearEl) {
+  currentYearEl.textContent = new Date().getFullYear();
+}
 
 var previousChecked = null;
 for (var i = 0; i < firstPaymentRadios.length; i++) {
