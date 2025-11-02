@@ -28,6 +28,7 @@ function handleChange(val) {
 function handleSubmit() {
   const amount = document.getElementById("amount").value;
   const rate = document.getElementById("rate").value;
+  const years = document.getElementById("years").value;
   const firstPaymentWithCash = firstPaymentWithCashEl.value;
   const firstPaymentWithRate = firstPaymentWithRateEl.value;
 
@@ -39,14 +40,15 @@ function handleSubmit() {
     firstPayment = firstPaymentWithCash;
   }
 
-  if (!amount || !rate || !firstPayment) {
+  if (!amount || !rate || !firstPayment || !years) {
     alert("Xanaları düzgün doldurun");
     clearResults();
     return;
   }
 
-  const monthlyPayment = calculateAnnuity(amount - firstPayment, rate);
-  const totalAmount = calculatoTotalAmount(monthlyPayment);
+  const months = years * 12;
+  const monthlyPayment = calculateAnnuity(amount - firstPayment, rate, months);
+  const totalAmount = calculatoTotalAmount(monthlyPayment, months);
   firstPaymentEl.textContent = thousandSeparator(firstPayment);
   monthlyPaymentEl.textContent = thousandSeparator(monthlyPayment);
   totalAmountEl.textContent = thousandSeparator(totalAmount);
